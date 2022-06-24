@@ -1,0 +1,1 @@
+# React Firebase Template App

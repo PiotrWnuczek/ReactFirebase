@@ -1,23 +1,49 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware } from 'redux';
+import { useSelector, Provider } from 'react-redux';
+import { getFirebase, isLoaded } from 'react-redux-firebase';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { getFirestore, createFirestoreInstance } from 'redux-firestore';
+import appReducer from 'store/appReducer';
+import appDatabase from 'store/appDatabase';
+import thunk from 'redux-thunk';
+import App from 'App';
+import 'index.css';
+import * as serviceWorkerRegistration from 'serviceWorkerRegistration.js';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const store = createStore(
+  appReducer,
+  applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.unregister();
+const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: true,
+  attachAuthIsReady: true,
+};
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const rrfProps = {
+  firebase: appDatabase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance,
+};
+
+const AuthIsLoaded = ({ children }) => {
+  const auth = useSelector(state => state.firebase.auth);
+  return isLoaded(auth) ? children : <p>loading...</p>;
+};
+
+ReactDOM.render(
+  <ReactReduxFirebaseProvider {...rrfProps}>
+    <Provider store={store}>
+      <AuthIsLoaded>
+        <App />
+      </AuthIsLoaded>
+    </Provider>
+  </ReactReduxFirebaseProvider>,
+  document.getElementById('root'),
+);
+
+serviceWorkerRegistration.register();
