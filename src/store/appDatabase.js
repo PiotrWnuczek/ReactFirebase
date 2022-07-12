@@ -6,17 +6,16 @@ import 'firebase/compat/auth';
 import 'firebase/compat/storage';
 
 firebase.initializeApp({
-  apiKey: '0',
-  authDomain: '0',
-  projectId: '0',
-  storageBucket: '0',
-  messagingSenderId: '0',
-  appId: '0',
-  measurementId: '0',
-  databaseURL: '0',
+  apiKey: 'AIzaSyC5s9mawuMRK8_Cs9CBgamsvYyRlC7z55g',
+  authDomain: 'reactfirebase-db.firebaseapp.com',
+  projectId: 'reactfirebase-db',
+  storageBucket: 'reactfirebase-db.appspot.com',
+  messagingSenderId: '206170606941',
+  appId: '1:206170606941:web:4b21ce00963ca4211facb4',
+  measurementId: 'G-05EVBL5PLB',
 });
 
 firebase.analytics();
-firebase.firestore().settings({ timestampsInSnapshots: true });
+firebase.firestore().settings({ timestampsInSnapshots: true, merge: true });
 
 export default firebase;

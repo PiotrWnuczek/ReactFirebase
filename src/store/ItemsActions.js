@@ -1,3 +1,11 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+export const itemsSlice = createSlice({
+  name: 'items',
+  initialState: {},
+  reducers: { itemsReducer: state => state },
+});
+
 export const createItem = (data) => (dispatch, gs, { getFirestore }) => {
   const firestore = getFirestore();
   const ref = firestore.collection('items');
