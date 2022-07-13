@@ -10,6 +10,7 @@ import AppProvider from 'assets/useApp';
 import SigninView from 'pages/SigninView';
 import SignupView from 'pages/SignupView';
 import BoardView from 'pages/BoardView';
+import CreateView from 'pages/CreateView';
 
 const App = () => {
   const auth = useSelector(state => state.firebase.auth);
@@ -29,6 +30,7 @@ const App = () => {
           <Routes>
             <Route path='/signin' element={<SigninView />} />
             <Route path='/signup' element={<SignupView />} />
+            <Route path='/create' element={access ? <CreateView /> : <Navigate to='/signin' />} />
             <Route path='/*' element={access ? <BoardView /> : <Navigate to='/signin' />} />
           </Routes>
         </BrowserRouter>

@@ -43,5 +43,7 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect(['items']),
+  firestoreConnect([
+    { collection: 'items', orderBy: ['date', 'desc'] },
+  ]),
 )(BoardView);

@@ -4,7 +4,7 @@ import { signoutUser } from 'store/usersActions';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Drawer, Avatar, List, ListItem, Typography } from '@mui/material';
 import { ListItemText, ListItemAvatar } from '@mui/material';
-import { Dashboard, Logout } from '@mui/icons-material';
+import { Add, Dashboard, Logout } from '@mui/icons-material';
 
 const SideBar = ({ signoutUser, auth, ...props }) => {
   const navigate = useNavigate();
@@ -30,6 +30,19 @@ const SideBar = ({ signoutUser, auth, ...props }) => {
             </Avatar>
           </ListItemAvatar>
           <ListItemText secondary='Board' />
+        </ListItem>
+        <ListItem
+          sx={{ textTransform: 'uppercase' }}
+          selected={location.pathname === '/create'}
+          onClick={() => navigate('/create')}
+          button
+        >
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: 'primary.main' }}>
+              <Add />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText secondary='Create' />
         </ListItem>
       </List>
       <List>
