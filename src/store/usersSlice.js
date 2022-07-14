@@ -1,42 +1,42 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const signinUser = createAsyncThunk(
-  'signinUser', async (data, thunk) => {
+  'signinUser', async (values, thunk) => {
     const firebase = thunk.extra.getFirebase();
     try {
       return await firebase.auth().signInWithEmailAndPassword(
-        data.email, data.password,
-      ).then(() => data);
+        values.email, values.password,
+      ).then(() => values);
     } catch (error) { throw error }
   },
 );
 
 export const signupUser = createAsyncThunk(
-  'signupUser', async (data, thunk) => {
+  'signupUser', async (values, thunk) => {
     const firebase = thunk.extra.getFirebase();
     const firestore = thunk.extra.getFirestore();
     try {
       return await firebase.auth().createUserWithEmailAndPassword(
-        data.email, data.password,
+        values.email, values.password,
       ).then((resp) => (
         firestore.collection('users').doc(resp.user.uid).set({
-          email: data.email,
-          firstname: data.firstname, lastname: data.lastname,
-          tags: [data.firstname + ' ' + data.lastname],
+          email: values.email,
+          firstname: values.firstname, lastname: values.lastname,
+          tags: [values.firstname + ' ' + values.lastname],
         })
-      )).then(() => data);
+      )).then(() => values);
     } catch (error) { throw error }
   },
 );
 
 export const updateProfile = createAsyncThunk(
-  'updateProfile', async (data, id, thunk) => {
+  'updateProfile', async ({ values, id }, thunk) => {
     const firestore = thunk.extra.getFirestore();
     const ref = firestore.collection('users').doc(id);
     try {
       return await ref.update({
-        ...data,
-      }).then(() => data);
+        ...values,
+      }).then(() => values);
     } catch (error) { throw error }
   },
 );
@@ -58,7 +58,7 @@ const usersSlice = createSlice({
       return { ...state, error: null };
     },
     [signinUser.rejected]: (state, action) => {
-      console.log(action.type, action.error.message);
+      console.log(action.type, action.error);
       return { ...state, error: action.error.message };
     },
     [signupUser.fulfilled]: (state, action) => {
@@ -66,7 +66,7 @@ const usersSlice = createSlice({
       return { ...state, error: null };
     },
     [signupUser.rejected]: (state, action) => {
-      console.log(action.type, action.error.message);
+      console.log(action.type, action.error);
       return { ...state, error: action.error.message };
     },
     [updateProfile.fulfilled]: (state, action) => {
@@ -74,7 +74,7 @@ const usersSlice = createSlice({
       return state;
     },
     [updateProfile.rejected]: (state, action) => {
-      console.log(action.type, action.payload);
+      console.log(action.type, action.error);
       return state;
     },
     [signoutUser.fulfilled]: (state, action) => {

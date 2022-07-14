@@ -1,40 +1,23 @@
 import React from 'react';
-import { useApp } from 'assets/useApp';
-import { connect } from 'react-redux';
-import { createItem } from 'store/itemsSlice';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
-import { Button, IconButton } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+import { createItem } from 'store/itemsSlice';
+import { Box, Button } from '@mui/material';
 import { Formik } from 'formik';
-import { format } from 'date-fns';
 import MainLayout from 'pages/MainLayout';
 import TextInput from 'atoms/TextInput';
 
-const CreateView = ({ createItem }) => {
-  const [sidebar, setSidebar] = useApp();
+const CreateView = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
-    <MainLayout navbar={
-      <Box sx={{ display: 'flex', alignItems: 'center', m: { xs: 1.2, sm: 2.2 } }}>
-        <IconButton
-          sx={{ display: { xs: 'flex', sm: 'none' }, mr: 2 }}
-          onClick={() => setSidebar(!sidebar)}
-        >
-          <Menu />
-        </IconButton>
-        <Typography variant='h6'>
-          Today is the {format(new Date(), 'do MMMM Y')}
-        </Typography>
-      </Box>
-    }>
+    <MainLayout>
       <Box sx={{ p: 2 }}>
         <Formik
           initialValues={{ name: '' }}
           onSubmit={(values) => {
-            createItem(values);
-            navigate('/');
+            dispatch(createItem({ values, navigate }));
           }}
         >
           {({ values, handleChange, handleSubmit }) => (
@@ -65,9 +48,4 @@ const CreateView = ({ createItem }) => {
   )
 };
 
-const mapDispatchToPorps = (dispatch) => ({
-  createItem: (data) => dispatch(createItem(data)),
-});
-
-export default connect(null, mapDispatchToPorps)
-  (CreateView);
+export default CreateView;

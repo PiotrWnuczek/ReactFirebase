@@ -1,9 +1,13 @@
 import React from 'react';
 import { useApp } from 'assets/useApp';
-import { Box, AppBar, Divider, Toolbar } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { AppBar, Toolbar } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
+import { Menu } from '@mui/icons-material';
+import { format } from 'date-fns';
 import SideBar from 'organisms/SideBar';
 
-const MainLayout = ({ children, navbar }) => {
+const MainLayout = ({ children }) => {
   const width = { xs: 180, sm: 140, md: 180 };
   const appbar = { sm: `calc(100% - 140px)`, md: `calc(100% - 180px)` };
   const [sidebar, setSidebar] = useApp();
@@ -31,7 +35,17 @@ const MainLayout = ({ children, navbar }) => {
         color='inherit'
         elevation={0}
       >
-        {navbar}
+        <Box sx={{ display: 'flex', alignItems: 'center', m: { xs: 1.2, sm: 2.2 } }}>
+          <IconButton
+            sx={{ display: { xs: 'flex', sm: 'none' }, mr: 2 }}
+            onClick={() => setSidebar(!sidebar)}
+          >
+            <Menu />
+          </IconButton>
+          <Typography variant='h6'>
+            Today is the {format(new Date(), 'do MMMM Y')}
+          </Typography>
+        </Box>
         <Divider />
       </AppBar>
       <Box sx={{ flexGrow: 1 }}>

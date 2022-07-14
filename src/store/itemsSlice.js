@@ -1,26 +1,28 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const createItem = createAsyncThunk(
-  'createItem', async (data, thunk) => {
+  'createItem', async ({ values, navigate }, thunk) => {
     const firestore = thunk.extra.getFirestore();
     const ref = firestore.collection('items');
     try {
       return await ref.add({
-        ...data, date: new Date(),
-      }).then(() => data);
-    } catch (err) { throw err }
+        ...values, date: new Date(),
+      }).then(
+        res => navigate('/' + res.id),
+      ).then(() => values);
+    } catch (error) { throw error }
   },
 );
 
 export const updateItem = createAsyncThunk(
-  'updateItem', async ({ data, id }, thunk) => {
+  'updateItem', async ({ values, id }, thunk) => {
     const firestore = thunk.extra.getFirestore();
     const ref = firestore.collection('items');
     try {
       return await ref.doc(id).update({
-        ...data,
-      }).then(() => data);
-    } catch (err) { throw err }
+        ...values,
+      }).then(() => values);
+    } catch (error) { throw error }
   },
 );
 
@@ -30,7 +32,7 @@ export const removeItem = createAsyncThunk(
     const ref = firestore.collection('items');
     try {
       return await ref.doc(id).delete().then(() => id);
-    } catch (err) { throw err }
+    } catch (error) { throw error }
   },
 );
 
@@ -42,7 +44,7 @@ const itemsSlice = createSlice({
       return state;
     },
     [createItem.rejected]: (state, action) => {
-      console.log(action.type, action.error.message);
+      console.log(action.type, action.error);
       return state;
     },
     [updateItem.fulfilled]: (state, action) => {
@@ -50,7 +52,7 @@ const itemsSlice = createSlice({
       return state;
     },
     [updateItem.rejected]: (state, action) => {
-      console.log(action.type, action.error.message);
+      console.log(action.type, action.error);
       return state;
     },
     [removeItem.fulfilled]: (state, action) => {
@@ -58,7 +60,7 @@ const itemsSlice = createSlice({
       return state;
     },
     [removeItem.rejected]: (state, action) => {
-      console.log(action.type, action.error.message);
+      console.log(action.type, action.error);
       return state;
     },
   },
