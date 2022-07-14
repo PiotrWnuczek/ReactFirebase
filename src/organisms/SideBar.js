@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signoutUser } from 'store/usersActions';
+import { signoutUser } from 'store/usersSlice';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Drawer, Avatar, List, ListItem, Typography } from '@mui/material';
 import { ListItemText, ListItemAvatar } from '@mui/material';

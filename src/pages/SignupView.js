@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { signupUser } from 'store/usersActions';
+import { signupUser } from 'store/usersSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Button, Grid, Typography } from '@mui/material';
