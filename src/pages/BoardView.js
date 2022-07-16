@@ -13,7 +13,7 @@ const BoardView = () => {
     <MainLayout>
       <Grid sx={{ p: 2 }} container spacing={2}>
         {items && items.map(item =>
-          <Grid item xs={12} key={item.name}>
+          <Grid item xs={12} key={item.id}>
             <ItemCard item={item} />
           </Grid>
         )}

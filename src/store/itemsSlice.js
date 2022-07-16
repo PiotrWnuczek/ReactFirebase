@@ -8,7 +8,7 @@ export const createItem = createAsyncThunk(
       return await ref.add({
         ...values, date: new Date(),
       }).then(
-        res => navigate('/' + res.id),
+        () => navigate('/'),
       ).then(() => values);
     } catch (error) { throw error }
   },
@@ -29,11 +29,13 @@ export const updateItem = createAsyncThunk(
 );
 
 export const removeItem = createAsyncThunk(
-  'removeItem', async (id, thunk) => {
+  'removeItem', async ({ id, navigate }, thunk) => {
     const firestore = thunk.extra.getFirestore();
     const ref = firestore.collection('items');
     try {
-      return await ref.doc(id).delete().then(() => id);
+      return await ref.doc(id).delete().then(
+        () => navigate('/'),
+      ).then(() => id);
     } catch (error) { throw error }
   },
 );

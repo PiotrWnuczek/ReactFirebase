@@ -1,5 +1,5 @@
 import React from 'react';
-import { updateItem } from 'store/itemsSlice';
+import { updateItem, removeItem } from 'store/itemsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -47,6 +47,14 @@ const UpdateView = () => {
             </form>
           )}
         </Formik>
+        <Button
+          onClick={() => dispatch(removeItem({ id, navigate }))}
+          variant='outlined'
+          color='error'
+          fullWidth
+        >
+          Remove
+        </Button>
       </Box> : <p> loading... </p>}
     </MainLayout>
   )
