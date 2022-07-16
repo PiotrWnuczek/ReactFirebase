@@ -1,16 +1,14 @@
-import React from 'react';
-import { useApp } from 'assets/useApp';
-import { Box, Typography } from '@mui/material';
-import { AppBar, Toolbar } from '@mui/material';
-import { Divider, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, AppBar } from '@mui/material';
+import { Divider, IconButton, Toolbar } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { format } from 'date-fns';
 import SideBar from 'organisms/SideBar';
 
 const MainLayout = ({ children }) => {
+  const [sidebar, setSidebar] = useState(false);
   const width = { xs: 180, sm: 140, md: 180 };
   const appbar = { sm: `calc(100% - 140px)`, md: `calc(100% - 180px)` };
-  const [sidebar, setSidebar] = useApp();
 
   return (
     <Box sx={{ display: 'flex' }}>

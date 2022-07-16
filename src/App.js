@@ -6,11 +6,11 @@ import { Routes, Navigate } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import { grey, blueGrey } from '@mui/material/colors';
 import { ThemeProvider } from '@mui/material';
-import AppProvider from 'assets/useApp';
 import SigninView from 'pages/SigninView';
 import SignupView from 'pages/SignupView';
 import BoardView from 'pages/BoardView';
 import CreateView from 'pages/CreateView';
+import UpdateView from 'pages/UpdateView';
 
 const App = () => {
   const auth = useSelector(state => state.firebase.auth);
@@ -24,18 +24,17 @@ const App = () => {
   });
 
   return (
-    <AppProvider>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <Routes>
-            <Route path='/signin' element={<SigninView />} />
-            <Route path='/signup' element={<SignupView />} />
-            <Route path='/create' element={access ? <CreateView /> : <Navigate to='/signin' />} />
-            <Route path='/*' element={access ? <BoardView /> : <Navigate to='/signin' />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </AppProvider>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Routes>
+          <Route path='/signin' element={<SigninView />} />
+          <Route path='/signup' element={<SignupView />} />
+          <Route path='/create' element={access ? <CreateView /> : <Navigate to='/signin' />} />
+          <Route path='/:id' element={access ? <UpdateView /> : <Navigate to='/signin' />} />
+          <Route path='/*' element={access ? <BoardView /> : <Navigate to='/signin' />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 };
 

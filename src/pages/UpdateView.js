@@ -1,23 +1,27 @@
 import React from 'react';
-import { createItem } from 'store/itemsSlice';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { updateItem } from 'store/itemsSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 import { Formik } from 'formik';
 import MainLayout from 'pages/MainLayout';
 import TextInput from 'atoms/TextInput';
 
-const CreateView = () => {
+const UpdateView = () => {
+  const { id } = useParams();
+  const item = useSelector(state => state.firestore.data[id]);
+  useFirestoreConnect([{ storeAs: id, collection: 'items', doc: id }]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
     <MainLayout>
-      <Box sx={{ p: 2 }}>
+      {item ? <Box sx={{ p: 2 }}>
         <Formik
-          initialValues={{ name: '' }}
+          initialValues={{ name: item && item.name }}
           onSubmit={(values) => {
-            dispatch(createItem({ values, navigate }));
+            dispatch(updateItem({ values, id, navigate }));
           }}
         >
           {({ values, handleChange, handleSubmit }) => (
@@ -38,14 +42,14 @@ const CreateView = () => {
                 variant='contained'
                 fullWidth
               >
-                Create
+                Update
               </Button>
             </form>
           )}
         </Formik>
-      </Box>
+      </Box> : <p> loading... </p>}
     </MainLayout>
   )
 };
 
-export default CreateView;
+export default UpdateView;

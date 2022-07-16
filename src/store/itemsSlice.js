@@ -15,13 +15,15 @@ export const createItem = createAsyncThunk(
 );
 
 export const updateItem = createAsyncThunk(
-  'updateItem', async ({ values, id }, thunk) => {
+  'updateItem', async ({ values, id, navigate }, thunk) => {
     const firestore = thunk.extra.getFirestore();
     const ref = firestore.collection('items');
     try {
       return await ref.doc(id).update({
         ...values,
-      }).then(() => values);
+      }).then(
+        () => navigate('/'),
+      ).then(() => values);
     } catch (error) { throw error }
   },
 );

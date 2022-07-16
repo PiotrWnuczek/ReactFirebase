@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase'
+import { useFirestoreConnect } from 'react-redux-firebase';
 import { Grid } from '@mui/material';
 import MainLayout from 'pages/MainLayout';
 import ItemCard from 'molecules/ItemCard';
