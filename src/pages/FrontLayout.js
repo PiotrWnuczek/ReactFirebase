@@ -21,7 +21,6 @@ const FrontLayout = ({ children }) => {
         >
           {children}
         </Card>
-
         <Box sx={{
           my: 1, display: 'flex', flexWrap: 'wrap',
           alignItems: 'center', justifyContent: 'center',
