@@ -8,7 +8,7 @@ export const createItem = createAsyncThunk(
       return await ref.add({
         ...values, date: new Date(),
       }).then(
-        () => navigate('/'),
+        () => navigate('/board'),
       ).then(() => values);
     } catch (error) { throw error }
   },
@@ -22,7 +22,7 @@ export const updateItem = createAsyncThunk(
       return await ref.doc(id).update({
         ...values,
       }).then(
-        () => navigate('/'),
+        () => navigate('/board'),
       ).then(() => values);
     } catch (error) { throw error }
   },
@@ -34,7 +34,7 @@ export const removeItem = createAsyncThunk(
     const ref = firestore.collection('items');
     try {
       return await ref.doc(id).delete().then(
-        () => navigate('/'),
+        () => navigate('/board'),
       ).then(() => id);
     } catch (error) { throw error }
   },

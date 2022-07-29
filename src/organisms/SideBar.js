@@ -21,8 +21,8 @@ const SideBar = ({ ...props }) => {
         </ListItem>
         <ListItem
           sx={{ textTransform: 'uppercase' }}
-          selected={location.pathname === '/'}
-          onClick={() => navigate('/')}
+          selected={location.pathname === '/board'}
+          onClick={() => navigate('/board')}
           button
         >
           <ListItemAvatar>
